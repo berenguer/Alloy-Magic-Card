@@ -3,24 +3,24 @@ package controller;
 // todo ameliorer l'attribut cost
 public class Card {
     
-    final private String name;
-    final private String color;
-    final private String cost;
-    final private String M12;
-    final private String[] type;
-    final private int[] power;
-    final private String text;
+    public String name;
+    public String color;
+    public String cost;
+    public String M12;
+    public String[] type;
+    public int[] power;
+    public String text;
 
     public Card(String name, String color, String cost, String m12,
             String[] type, int[] power, String text) {
         super();
-        this.name = name;
-        this.color = color;
-        this.cost = cost;
-        M12 = m12;
-        this.type = type;
-        this.power = power;
-        this.text = text;
+        this.name   = name;
+        this.color  = color;
+        this.cost   = cost;
+        this.M12    = m12;
+        this.type   = type;
+        this.power  = power;
+        this.text   = text;
     }
 
     public String getName() {
@@ -49,6 +49,34 @@ public class Card {
 
     public String getText() {
         return text;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setColor(String color) {
+        this.color = color;
+    }
+
+    public void setCost(String cost) {
+        this.cost = cost;
+    }
+
+    public void setM12(String m12) {
+        M12 = m12;
+    }
+
+    public void setType(String[] type) {
+        this.type = type;
+    }
+
+    public void setPower(int[] power) {
+        this.power = power;
+    }
+
+    public void setText(String text) {
+        this.text = text;
     }
     
 }
