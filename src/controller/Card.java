@@ -1,6 +1,6 @@
 package controller;
 
-// todo ameliorer l'attribut cost
+// todo improve cost attribute (ex 2GGWWUU..? WTF)
 public class Card {
     
     public String name;
@@ -10,21 +10,23 @@ public class Card {
     public String[] type;
     public int[] power;
     public String text;
+    public String toString;
     
     public Card() {
         // empty
     }
 
     public Card(String name, String color, String cost, String m12,
-            String[] type, int[] power, String text) {
+            String[] type, int[] power, String text, String toString) {
         super();
         this.name   = name;
         this.color  = color;
         this.cost   = cost;
-        this.sets    = m12;
+        this.sets   = m12;
         this.type   = type;
         this.power  = power;
         this.text   = text;
+        this.toString = toString;
     }
 
     public String getName() {
@@ -39,7 +41,7 @@ public class Card {
         return cost;
     }
 
-    public String getM12() {
+    public String getSets() {
         return sets;
     }
 
@@ -67,8 +69,8 @@ public class Card {
         this.cost = cost;
     }
 
-    public void setM12(String m12) {
-        sets = m12;
+    public void setSets(String sets) {
+        this.sets = sets;
     }
 
     public void setType(String[] type) {
@@ -81,6 +83,14 @@ public class Card {
 
     public void setText(String text) {
         this.text = text;
+    }
+    
+    public void setToString(String toString) {
+        this.text = text;
+    }
+    
+    public String toString() {
+        return toString;
     }
     
 }
