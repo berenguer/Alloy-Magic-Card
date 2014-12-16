@@ -10,6 +10,10 @@ public class Card {
     public String[] type;
     public int[] power;
     public String text;
+    
+    public Card() {
+        // empty
+    }
 
     public Card(String name, String color, String cost, String m12,
             String[] type, int[] power, String text) {
