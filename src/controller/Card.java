@@ -6,7 +6,7 @@ public class Card {
     public String name;
     public String color;
     public String cost;
-    public String M12;
+    public String sets;
     public String[] type;
     public int[] power;
     public String text;
@@ -21,7 +21,7 @@ public class Card {
         this.name   = name;
         this.color  = color;
         this.cost   = cost;
-        this.M12    = m12;
+        this.sets    = m12;
         this.type   = type;
         this.power  = power;
         this.text   = text;
@@ -40,7 +40,7 @@ public class Card {
     }
 
     public String getM12() {
-        return M12;
+        return sets;
     }
 
     public String[] getType() {
@@ -68,7 +68,7 @@ public class Card {
     }
 
     public void setM12(String m12) {
-        M12 = m12;
+        sets = m12;
     }
 
     public void setType(String[] type) {
