@@ -1,0 +1,8 @@
+Name: Villainous Ogre
+Color: Black
+Cost: 2B
+Sets: CHK
+Type: Creature — Ogre Warrior
+Power: 3/2
+Text: Villainous Ogre can't block.
+As long as you control a Demon, Villainous Ogre has "{B}: Regenerate Villainous Ogre."

@@ -1,0 +1,7 @@
+Name: Regeneration
+Color: Green
+Cost: 1G
+Sets: LEA, LEB, 2ED, 3ED, 4ED, ICE, MIR, 5ED, 6ED, 7ED, 8ED, 9ED, 10E
+Type: Enchantment — Aura
+Text: Enchant creature (Target a creature as you cast this. This card enters the battlefield attached to that creature.)
+{G}: Regenerate enchanted creature. (The next time that creature would be destroyed this turn, it isn't. Instead tap it, remove all damage from it, and remove it from combat.)
