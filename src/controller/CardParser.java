@@ -5,7 +5,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-
+import java.util.Hashtable;
 
 /**
  * Parse Magic Card and transform into object, or return informations about the database.
@@ -30,104 +30,110 @@ import java.util.ArrayList;
  */
 public class CardParser {
 
+    static ArrayList<String> editions = new ArrayList<String>();
+
+    static ArrayList<String> texts = new ArrayList<String>();
+    
+    // key : name of the card, value : Card object reference
+    static Hashtable<String, Card> database = new Hashtable<String, Card>();
+
     /**
-     * Extract all editions referenced in the database. Every cards are parsed.
-     * Each card has a filed "Sets" followed by the differents editions where the card is available.
-     * Example :
-     * Sets: LEG, CHR
-     * @param path directory containing cards
+     * Parse the database containing all cards. Each file of card is converted
+     * into a Card object. All editions encountered during parsing the whole
+     * database are saved. Extract all editions referenced in the database, by
+     * saving the distinct "Sets" values. Each card has a filed "Sets" followed
+     * by the differents editions where the card is available. Example : Sets:
+     * LEG, CHR
+     * 
+     * @param path
+     *            directory containing cards
      * @return collection of editions
      */
-    public static ArrayList<String> parseEditions(String path) {
-        ArrayList<String> editions = new ArrayList<String>();
-        
-        // contains all the .txt card files
+    public static Hashtable<String, Card> parseDatabase(String path) {
+
+        // directory containing all .txt card files
         File directory = new File(path);
+        
+        // allocated memory proportional to the number of file
+        if (database.isEmpty()) {
+            Hashtable<String, Card> database = new Hashtable<String, Card>(
+                    directory.listFiles().length);
+        }
 
         for (File f : directory.listFiles()) {
-            
-            // read card
-            try (BufferedReader br = new BufferedReader(new FileReader(f.getAbsolutePath()))) {
 
-                String sCurrentLine;
-                while ((sCurrentLine = br.readLine()) != null) {
+            Card card = parseSingleCard(f.getAbsolutePath());
+            database.put(card.name, card);
 
-                    // editions are located after the "Sets" tag
-                    if (sCurrentLine.startsWith("Sets")) {
-                        
-                        // extract all the editions by removing the "," separation and escape space " " by an empty char
-                        for (String edition : sCurrentLine.split("Sets: ")[1].toString().split(",")) {
-                            if (!editions.contains(edition)) {
-                                editions.add(edition);
-                            }
-                            
-                        } // for edtion
-                    }
-                } // for line
-
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
         } // for file
 
-        return editions;
+        return database;
     }
 
-    /**
-     * Parse the file .txt which comes from the Magic Card database, and convert it to a Card object.
-     * @param path filepath
-     * @return Card with attributes extract from the database
-     */
-    public static Card parse(String path) {
+    public static Card parseSingleCard(String path) {
 
         Card card = new Card();
 
-        // save lines and set at the end the value of attribute Card.toString
-        String cardToString = "";
-
+        // read card
         try (BufferedReader br = new BufferedReader(new FileReader(path))) {
+
             String sCurrentLine;
             while ((sCurrentLine = br.readLine()) != null) {
-                System.out.println(sCurrentLine);
-
-                cardToString = cardToString.concat(sCurrentLine + "\n");
 
                 if (sCurrentLine.startsWith("Name")) {
                     // extract value
                     card.setName(sCurrentLine.split("Name: ")[1].toString());
-                } else if (sCurrentLine.startsWith("Color")) {
+                }
+                else if (sCurrentLine.startsWith("Color")) {
                     card.setColor(sCurrentLine.split("Color: ")[1].toString());
-                } else if (sCurrentLine.startsWith("Cost")) {
+                }
+                else if (sCurrentLine.startsWith("Cost")) {
                     card.setCost(sCurrentLine.split("Cost: ")[1].toString());
-                } else if (sCurrentLine.startsWith("Sets")) {
+                }
+                else if (sCurrentLine.startsWith("Sets")) {
                     card.setSets(sCurrentLine.split("Sets: ")[1].toString());
-                } else if (sCurrentLine.startsWith("Type")) {
+                    // extract editions by removing the "," separation and
+                    // espace " " by an empty char
+                    for (String edition : sCurrentLine.split("Sets: ")[1]
+                            .toString().split(",")) {
+                        if (!editions.contains(edition) || editions.size() == 0) {
+                            editions.add(edition);
+                        }
+                    }
+                }
+                else if (sCurrentLine.startsWith("Type")) {
                     // !!! TO DO !!!
                     String[] types;
                     types = new String[2];
                     // defense
-                } else if (sCurrentLine.startsWith("Power")) {
-                    int[] powerValue;
-                    powerValue = new int[2];
-                    // defense
-                    powerValue[0] = Integer.parseInt(sCurrentLine
-                            .split("Power: ")[1].toString().split("/")[0]);
-                    // attack
-                    powerValue[1] = Integer.parseInt(sCurrentLine
-                            .split("Power: ")[1].toString().split("/")[1]);
                 }
-                // else add content to card.Type attribute
-                else { // !!! A TESTER !!!
+                else if (sCurrentLine.startsWith("Power")) {
+
+                    int[] power = new int[2];
+                    // defense
+                    power[0] = Integer
+                            .parseInt(sCurrentLine.split("Power: ")[1]
+                                    .toString().split("/")[0]);
+                    // attack
+                    power[1] = Integer
+                            .parseInt(sCurrentLine.split("Power: ")[1]
+                                    .toString().split("/")[1]);
+                    card.setPower(power);
+                }
+                else if (sCurrentLine.startsWith("Sets")) {
+                    card.setSets(sCurrentLine.split("Sets: ")[1].toString());
+                }
+
+                else { // else add content to card.Type attribute // !!! A
+                       // TESTER !!!
                     if (card.getText() != null) {
                         card.setText(card.getText().concat(sCurrentLine));
                     } else {
                         card.setText(sCurrentLine);
                     }
-                    System.out.println("TEEEEXT " + card.getText());
                 }
 
-                System.out.println("______________________________________");
-            }
+            } // for line
 
         } catch (IOException e) {
             e.printStackTrace();
