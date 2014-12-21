@@ -1,5 +1,7 @@
 package controller;
 
+import java.util.Collections;
+
 // todo improve cost attribute (ex 2GGWWUU..? WTF)
 public class Card {
     
@@ -7,7 +9,7 @@ public class Card {
     public String color;
     public String cost;
     public String sets;
-    public String[] type;
+    public String[] types;
     public int[] power;
     public String text;
     public String toString;
@@ -23,7 +25,7 @@ public class Card {
         this.color  = color;
         this.cost   = cost;
         this.sets   = m12;
-        this.type   = type;
+        this.types   = type;
         this.power  = power;
         this.text   = text;
         this.toString = toString;
@@ -46,7 +48,7 @@ public class Card {
     }
 
     public String[] getType() {
-        return type;
+        return types;
     }
 
     public int[] getPower() {
@@ -74,7 +76,7 @@ public class Card {
     }
 
     public void setType(String[] type) {
-        this.type = type;
+        this.types = type;
     }
 
     public void setPower(int[] power) {
@@ -90,7 +92,17 @@ public class Card {
     }
     
     public String toString() {
-        return toString;
+        String typesString = "|";
+        for (int i = 0; i < this.types.length; i++) {
+            typesString += this.types[i]+"|";
+        }
+        return this.name + "\n" +
+        this.color + "\n" +
+        this.cost + "\n" +
+        this.sets + "\n" +
+        typesString + "\n" +
+        this.power[0] + "/" + this.power[1] + "\n" +
+        this.text;
     }
     
 }
