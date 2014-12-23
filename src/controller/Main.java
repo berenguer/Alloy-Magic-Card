@@ -12,12 +12,15 @@ public class Main {
 
     public static void main(String[] args) {
         
-        CardParser.parseDatabase("Database");
+        //CardParser.parseDatabase("Database");
         
         System.out.println(CardParser.getEditions());
         // parse and get corresponding Card
-        //Card c = CardParser.parseSingleCard("Database/Nameless Race.card");
-        //System.out.println(c);
+        Card c = CardParser.parseSingleCard("Database/Humility.card");
+        System.out.println(c);
+        
+        int[] prout = new int[3];
+                System.out.println(prout[2]);
         
         
         // display all texts from all cards

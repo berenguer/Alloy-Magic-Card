@@ -2,7 +2,6 @@ package controller;
 
 import java.util.Collections;
 
-// todo improve cost attribute (ex 2GGWWUU..? WTF)
 public class Card {
     
     public String name;
@@ -10,7 +9,9 @@ public class Card {
     public String cost;
     public String sets;
     public String[] types;
-    public int[] power;
+    // 1. Every cards don't have power, like Enchantment, so Power is set to 0/0.
+    // 2. A creature with */* in the game is represented is here with -1/-1 as power.
+    public int[] power = new int[2];
     public String text;
     public String toString;
     

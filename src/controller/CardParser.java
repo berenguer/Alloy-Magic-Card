@@ -137,6 +137,7 @@ public class CardParser {
                     }
                 }
                 else if (sCurrentLine.startsWith("Power: ")) {
+                    System.out.println("POWERISING");
                     int[] power = new int[2];
                     try {
                         // defense
