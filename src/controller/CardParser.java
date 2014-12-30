@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 /**
  * Parse Magic Card and transform into object, or return informations about the database.
@@ -33,6 +34,8 @@ import java.util.Hashtable;
 public class CardParser {
 
     static private ArrayList<String> editions = new ArrayList<String>();
+    
+    static private ArrayList<String> types = new ArrayList<String>();
 
     static ArrayList<String> texts = new ArrayList<String>();
     
@@ -46,16 +49,40 @@ public class CardParser {
      * @return Magic Card editions encountered
      */
     static public ArrayList<String> getEditions() {
-        Collections.sort(editions);
+        ArrayList<String> editionsWithoutDuplicates = new ArrayList<String>(); 
         
         for (int i = 0; i < editions.size(); i++) {
-            for (int j = i+1; j < editions.size(); j++) {
-                if (editions.get(i) == editions.get(j)) {
-                    editions.remove(j);
-                }
+            if (!editionsWithoutDuplicates.contains(editions.get(i))) {
+                editionsWithoutDuplicates.add(editions.get(i));
             }
         }
+        
+        Collections.sort(editionsWithoutDuplicates);
+        
+        editions = editionsWithoutDuplicates;
+        
         return editions;
+    }
+    
+    /**
+     * Get all types encountered during previous parsing.
+     * Remove same values, and sort alphabeticaly editions.
+     * @return Magic Card types encountered
+     */
+    static public ArrayList<String> getTypes() {
+        ArrayList<String> typesWithoutDuplicates = new ArrayList<String>(); 
+        
+        for (int i = 0; i < types.size(); i++) {
+            if (!typesWithoutDuplicates.contains(types.get(i))) {
+                typesWithoutDuplicates.add(types.get(i));
+            }
+        }
+        
+        Collections.sort(typesWithoutDuplicates);
+        
+        types = typesWithoutDuplicates;
+        
+        return types;
     }
 
     /**
@@ -119,25 +146,21 @@ public class CardParser {
                     // espace " " by an empty char
                     for (String edition : sCurrentLine.split("Sets: ")[1]
                             .toString().split(",")) {
-                        if (!editions.contains(edition) || editions.size() == 0) {
-                            editions.add(edition);
-                        }
+                        editions.add(edition);
                     }
                 }
                 else if (sCurrentLine.startsWith("Type: ")) {
                     // !!!
                     // todo ameliorate parsing
                     // !!!
-                    String[] types = sCurrentLine.split("Type: ");
-                    if (types.length > 1) {
-                        types = Arrays.copyOfRange(types, 1, types.length);
-                        card.setType(types);
-                    } else {
-                        card.setType(types);
+                    String[] type = sCurrentLine.split("Type: ");
+                    card.setType(type[1]);
+                    if (!types.contains(type[1]) || types.size() == 0) {
+                        types.add(type[1]);
                     }
+                    types.add(type[1]);           
                 }
                 else if (sCurrentLine.startsWith("Power: ")) {
-                    System.out.println("POWERISING");
                     int[] power = new int[2];
                     try {
                         // defense
