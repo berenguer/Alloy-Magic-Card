@@ -8,7 +8,7 @@ public class Card {
     public String color;
     public String cost;
     public String sets;
-    public String[] types;
+    public String type;
     // 1. Every cards don't have power, like Enchantment, so Power is set to 0/0.
     // 2. A creature with */* in the game is represented is here with -1/-1 as power.
     public int[] power = new int[2];
@@ -20,13 +20,13 @@ public class Card {
     }
 
     public Card(String name, String color, String cost, String m12,
-            String[] type, int[] power, String text, String toString) {
+            String type, int[] power, String text, String toString) {
         super();
         this.name   = name;
         this.color  = color;
         this.cost   = cost;
         this.sets   = m12;
-        this.types   = type;
+        this.type   = type;
         this.power  = power;
         this.text   = text;
         this.toString = toString;
@@ -48,8 +48,8 @@ public class Card {
         return sets;
     }
 
-    public String[] getType() {
-        return types;
+    public String getType() {
+        return type;
     }
 
     public int[] getPower() {
@@ -76,8 +76,8 @@ public class Card {
         this.sets = sets;
     }
 
-    public void setType(String[] type) {
-        this.types = type;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public void setPower(int[] power) {
@@ -93,15 +93,11 @@ public class Card {
     }
     
     public String toString() {
-        String typesString = "|";
-        for (int i = 0; i < this.types.length; i++) {
-            typesString += this.types[i]+"|";
-        }
         return this.name + "\n" +
         this.color + "\n" +
         this.cost + "\n" +
         this.sets + "\n" +
-        typesString + "\n" +
+        this.type + "\n" +
         this.power[0] + "/" + this.power[1] + "\n" +
         this.text;
     }
