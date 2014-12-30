@@ -9,29 +9,72 @@ sig Deck {
 
 // Need to be abstract
 abstract sig Card {
-	name: Name,
-	color: set AvailableColors,
-	sets: set AvailableSets
+price :Int,
+name: String,
+color: set AvailableColors,
+sets: set AvailableSets
 }
 
-//sig EnchanT extends Card//We need the T caps coz Enchant is also a Capacity
-//{
-//	capacity: EnchantCapcity//will need a real list (parseur time)
-
-//}
-
-sig Summon extends Card
+abstract sig EnchanT extends Card//We need the T caps coz Enchant is also a Capacity
 {
-	summonType: SummonType,
-	power: Int,
-	def: Int,
-	summonCapacity:some SummonCapacity ,//like fly..
-	activableCapacity: some ActivableCapacity,//will need a real list (parseur time)
-	unactivableCapacity:some UnactivableCapacity//will need a real list (parseur time)
+ capacity: EnchantCapcity//will need a real list (parseur time)
 }
 
 
+abstract sig Summon extends Card
+{
+summonType: SummonType,
+power: Int,
+def: Int,
+summonCapacity:some SummonCapacity ,//like fly..
+activableCapacity: some ActivableCapacity,//will need a real list (parseur time)
+unactivableCapacity:some UnactivableCapacity//will need a real list (parseur time)
+}
 
+
+//EXAMPLE
+sig Summon1 extends Summon{}
+{
+price = 3
+color=red
+name="ArcboundWorker"
+sets=EVE
+summonType=Artificer
+power=2
+def=2
+summonCapacity=Absorb
+activableCapacity=BTest1
+unactivableCapacity=Test1
+}
+sig Summon2 extends Summon{}
+{
+price =4
+color=blue
+name="ArcboundWorker"
+sets=EVE
+summonType=Artificer
+power=2
+def=2
+summonCapacity=Absorb
+activableCapacity=BTest1
+unactivableCapacity=Test1
+}
+
+sig Enchant1 extends EnchanT{}
+{
+price =4
+color=blue
+name="ArcboundWorker"
+capacity=enchant1
+}
+
+sig Enchant2 extends EnchanT{}
+{
+price =4
+color=red
+name="ArcboundWorker"
+capacity=enchant1
+}
 -----------------------ENUM------------------------------
 enum AvailableColors {green, blue, white, red, black}
 enum AvailableSets {EVE, UDS, DST, DDF}
@@ -108,23 +151,6 @@ enchant1,enchant2,enchant3
 
 }
 
------------------------FACT FOR SUMMON------------------------------
-// every summonCapacity instanciated is owned by a Summon
-fact
-{
-	all sc: SummonCapacity | one summon:Summon | sc in summon.summonCapacity//not sure (maybe same as color)
-}
-// every  ActivableCapacity instanciated is owned by a Summon
-fact
-{
-	all ac: ActivableCapacity | one summon:Summon | ac in summon.activableCapacity//not sure (maybe same as color)
-}
-// every  unactivableCapacity instanciated is owned by a Summon
-fact
-{
-	all uc: UnactivableCapacity | one summon:Summon | uc in summon.unactivableCapacity//not sure (maybe same as color)
-}
-// Need a fact for dont generate all SummonType for nothing (same as color i guess)
 
 
 -----------------------FACT FOR ENCHANT------------------------------
@@ -139,27 +165,15 @@ fact
 	all i_cards: Card | one deck: Deck | i_cards in deck.cards
 }
 -----------------------FACT FOR CARDS------------------------------
-// every Name instanciated is owned by a Card
-fact
-{
-	all i_name: Name | one card: Card | i_name in card.name
-
-}
-
------------------------FACT FOR Sets------------------------------
-// every Sets instanciated is owned by a Card
-fact
-{
-	all i_sets: AvailableSets | one card: Card | i_sets in card.sets
-
-}
 
 pred Empty {}
-
-
+//only redCard
+pred  OnlyRed {
+all deck:Deck | deck.cards.color=red
+}
 
 
 // try to instanciate 3 cards
 //run Empty for exactly 2 Deck, 4 Card
-run Empty for exactly 1 Deck , 3 Summon
+run  OnlyRed for exactly 2 Deck , 2 Card
 //run Empty for exactly 1 Deck , 3 EnchanT
