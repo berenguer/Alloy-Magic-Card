@@ -10,17 +10,19 @@ public class Card {
     public String sets;
     public String type;
     // 1. Every cards don't have power, like Enchantment, so Power is set to 0/0.
-    // 2. A creature with */* in the game is represented is here with -1/-1 as power.
+    // 2. A creature with */* in the game is represented here with -1/-1 as power.
+    // [0] is power, [1] is endurence
     public int[] power = new int[2];
     public String text;
     public String toString;
-    
+    public float price = 0;
+
     public Card() {
         // empty
     }
 
     public Card(String name, String color, String cost, String m12,
-            String type, int[] power, String text, String toString) {
+            String type, int[] power, String text, float price, String toString) {
         super();
         this.name   = name;
         this.color  = color;
@@ -29,6 +31,7 @@ public class Card {
         this.type   = type;
         this.power  = power;
         this.text   = text;
+        this.price = price;
         this.toString = toString;
     }
 
@@ -59,6 +62,10 @@ public class Card {
     public String getText() {
         return text;
     }
+    
+    public float getPrice() {
+        return price;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -87,6 +94,10 @@ public class Card {
     public void setText(String text) {
         this.text = text;
     }
+
+    public void setPrice(float price) {
+        this.price = price; 
+    }
     
     public void setToString(String toString) {
         this.text = text;
@@ -99,7 +110,9 @@ public class Card {
         this.sets + "\n" +
         this.type + "\n" +
         this.power[0] + "/" + this.power[1] + "\n" +
-        this.text;
+        this.text + "\n" +
+        this.price;
+        
     }
     
 }

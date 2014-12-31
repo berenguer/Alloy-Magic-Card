@@ -38,9 +38,8 @@ public class Main {
         
         CardParser.parseDatabase("Database");
         
-        
         // display all types from all cards
-        System.out.println(CardParser.getEditions().size());
+        System.out.println(CardParser.getTexts().size());
         
         System.out.println("Alloy me honey");
 

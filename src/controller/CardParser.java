@@ -84,6 +84,27 @@ public class CardParser {
         
         return types;
     }
+    
+    /**
+     * Get all texts encountered during previous parsing.
+     * Remove same values, and sort alphabeticaly editions.
+     * @return Magic Card types encountered
+     */
+    static public ArrayList<String> getTexts() {
+        ArrayList<String> textsWithoutDuplicates = new ArrayList<String>(); 
+        
+        for (int i = 0; i < texts.size(); i++) {
+            if (!textsWithoutDuplicates.contains(texts.get(i))) {
+                textsWithoutDuplicates.add(texts.get(i));
+            }
+        }
+        
+        Collections.sort(textsWithoutDuplicates);
+        
+        texts = textsWithoutDuplicates;
+        
+        return texts;
+    }
 
     /**
      * Parse the database containing all the cards text and convert card to the corresponding Card object.
@@ -155,9 +176,6 @@ public class CardParser {
                     // !!!
                     String[] type = sCurrentLine.split("Type: ");
                     card.setType(type[1]);
-                    if (!types.contains(type[1]) || types.size() == 0) {
-                        types.add(type[1]);
-                    }
                     types.add(type[1]);           
                 }
                 else if (sCurrentLine.startsWith("Power: ")) {
