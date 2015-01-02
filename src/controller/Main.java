@@ -1,7 +1,24 @@
 package controller;
 
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 
 public class Main {
+    
+    public void WriteFile(String path, String content) {
+        
+        byte data[] = content.getBytes();
+
+        File f = new File(path);
+        try (OutputStream out = new BufferedOutputStream (new FileOutputStream(f))) {
+            out.write(data, 0, data.length);
+        } catch (IOException x) {
+            System.err.println(x);
+        }
+    }
 
     public static void main(String[] args) {
         
@@ -29,12 +46,13 @@ public class Main {
         
         */
         
-        CardParser.parseDatabase("Database");
+        //CardParser.parseDatabase("Database");
         
         // display all types from all cards
         //System.out.println(CardParser.getTypes());
         
-        System.out.println(CardParser.database.size());
+        //System.out.println(CardParser.database.size());
+        
         
         System.out.println("Alloy me honey");
 
