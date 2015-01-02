@@ -1,39 +1,3 @@
-sig Deck {
-	cards: some Card
-}
-
-abstract sig Card {
-	name: String,
-	color: Color,
-	cost: String,
-	sets: String,
-	type: Type,
-	power: Int,
-	endurence: Int,
-	text: String,
-	price: Int
-}
-
-// every Card is owned by a Deck
-fact
-{
-	all i_cards: Card | one deck: Deck | i_cards in deck.cards
-}
-
-
-
-// ------------- types ----------------
-abstract sig Type {}
-one sig Artifact, Basic, Creature, Eaturecray, Enchant, Enchantment, Instant, Interrupt, Land, Legendary, Planeswalker, Scariest, Snow, Sorcery, Summon, Tribal, World extends Type {}
-
-// ------------ colors ----------------
-abstract sig Color {}
-one sig ArtifactColor, Black, Blue, Colorless, Gold, Green, Red, White extends Color {}
-
-
-
-// ----------------------------------------- DECLARATION ----------------------------------------
-
 sig Card0 extends Card {} {
 	name = "KamiofthePalaceFields"
 	color = White
@@ -595,11 +559,3 @@ sig Card50 extends Card {} {
 	text = "If you control a Forest, rather than pay Invigorate's mana cost, you may have an opponent gain 3 life.Target creature gets +4/+4 until end of turn."
 	price = 92
 }
-
-// ------------------------------------- END DECLARATION -------------------------------------
-
-pred  OnlyArtifact {
-all deck:Deck | deck.cards.color = ArtifactColor
-}
-
-run OnlyArtifact for 1 Deck, 2 Card
