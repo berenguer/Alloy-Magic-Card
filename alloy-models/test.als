@@ -7,156 +7,25 @@ sig Deck {
 	cards: some Card
 }
 
-// Need to be abstract
 abstract sig Card {
-price :Int,
 name: String,
-color: set AvailableColors,
-sets: set AvailableSets
-}
-
-abstract sig EnchanT extends Card//We need the T caps coz Enchant is also a Capacity
-{
- capacity: EnchantCapcity//will need a real list (parseur time)
-}
-
-
-abstract sig Summon extends Card
-{
-summonType: SummonType,
-power: Int,
-def: Int,
-summonCapacity:some SummonCapacity ,//like fly..
-activableCapacity: some ActivableCapacity,//will need a real list (parseur time)
-unactivableCapacity:some UnactivableCapacity//will need a real list (parseur time)
-}
-
-
-//EXAMPLE
-sig Summon1 extends Summon{}
-{
-price = 3
-color=red
-name="ArcboundWorker"
-sets=EVE
-summonType=Artificer
-power=2
-def=2
-summonCapacity=Absorb
-activableCapacity=BTest1
-unactivableCapacity=Test1
-}
-sig Summon2 extends Summon{}
-{
-price =4
-color=blue
-name="ArcboundWorker"
-sets=EVE
-summonType=Artificer
-power=2
-def=2
-summonCapacity=Absorb
-activableCapacity=BTest1
-unactivableCapacity=Test1
-}
-
-sig Enchant1 extends EnchanT{}
-{
-price =4
-color=blue
-name="ArcboundWorker"
-capacity=enchant1
-}
-
-sig Enchant2 extends EnchanT{}
-{
-price =4
-color=red
-name="ArcboundWorker"
-capacity=enchant1
+color: Color,
+cost: String,
+sets: String,
+type: Type,
+creatureType : lone String,//lone coz if no creature dont exist
+power: lone Int,//lone coz if no creature dont exist
+endurence: lone Int,//lone coz if no creature dont exist
+text: String,
+price: Int
 }
 -----------------------ENUM------------------------------
-enum AvailableColors {green, blue, white, red, black}
-enum AvailableSets {EVE, UDS, DST, DDF}
+abstract sig Color {}
+one sig ArtifactColor, Black, Blue, Colorless, Gold, Green, Red, White extends Color {}
 
-//ENUM NAME
-enum Name {ArcboundWorker, ArcheryTraining, JawboneSkulkin}
+abstract sig Type {}
+one sig Artifact, Basic, Creature, Eaturecray, Enchant, Enchantment, Instant, Interrupt, Land, Legendary, Planeswalker, Scariest, Snow, Sorcery, Summon, Tribal, World extends Type {}
 
-//all SummonCapacity
-enum  SummonCapacity {Absorb,Affinity,Amplify,Annihilator,AuraSwap,
-Banding, BattleCry, Bestow, Bloodthirst, Bushido, Buyback,
-Cascade, Champion, Changeling, Cipher, Conspire, Convoke, CumulativeUpkeep, Cycling,
-Deathtouch, Defender, Delve, Dethrone, Devour, DoubleStrike, Dredge,
-Echo, Enchant, Entwine, Epic, Equip, Evoke, Evolve, Exalted, Extort,
-Fading, Fear, FirstStrike, Flanking, Flash, Flashback, Flying, Forecast, Fortify, Frenzy, Fuse,
-Graft, Gravestorm,
-Haste, Haunt, Hexproof, HiddenAgenda, Hideaway, Horsemanship,
-Indestructible, Infect, Intimidate,
-Kicker,
-Landwalk, LevelUp, Lifelink, LivingWeapon,
-Madness, Miracle, Modular, Morph,
-Ninjutsu,
-Offering, Outlast, Overload,
-Persist, Phasing, Poisonous, Protection, Provoke, Prowess, Prowl,
-Reach, Rebound, Recover, Reinforce, Replicate, Retrace, Ripple,
-Rampage, Scavenge, Shadow, Shroud, Soulbond, Soulshift, Splice, SplitSecond, Storm, Sunburst, Suspend,
-TotemArmor, Trample, Transfigure, Transmute, Tribute,
-Undying, Unearth, Unleash,
-Vanishing, Vigilance,
-Wither
-}
-
-//all Summon type
-enum  SummonType
-{
-Artificer,Assassin,Atog,Avatar, 
-Barbaria,Bear, Beast,Berserker,Bird,Boar,
-Cat,Centaur,Cephalid, Cleric,Construct,Crab,Crocodile,
-Demon, Djinn,Dragons,Drake,Drone,Druid,Dryad,
-Efreet, Elder,Eldrazi,Elemental,Elf,
-Faerie,Fox,Frog,
-Gargoyle,Giants,Goblin,Golem, Gorgon,Griffin,
-Hag, Homarid,Homunculus,Horror,Horse,Hound,Human,Hydra,
-Illusion,Imp,Incarnation,Insect,
-Juggernaut,
-Kami,Kavu,Kithkin,Kor,
-Leech,Leviathan,Lhurgoyf,Licid,Lizard,
-Mercenary,Merfolk,Minotaur,Mutant,Myr,
-Nightstalker,Nomad,
-Octopus,Ooze,Ouphe,Ox,
-Pegasus,Phoenix,Pirate,Praetor,
-Rat,Rebel,Rhino,Rogue,
-Salamander,Samurai,Saproling,Scarecrow,Scout,Shade,Siren,Skeleton,Slith,Sliver,Snake,Specter,Spellshaper,Sphinx,Spider,Squirrel,
-Thrull,Treefolk,Troll,
-Unicorn,
-Vampire,Vedalken,Viashino,Volver,
-Wall,Warrior,Werewolf,Wolf,Wolverine,Wurm,
-Zombie
-} 
-
-//need real List
-enum ActivableCapacity
-{
-BTest1,RTest2,Btest3
-} 
-
-//need real List
-enum UnactivableCapacity
-{
-Test1,Test2,test3
-} 
-//need a realList
-enum EnchantCapcity{
-enchant1,enchant2,enchant3
-
-}
-
-
-
------------------------FACT FOR ENCHANT------------------------------
-// every ENCHANT instanciated is owned by a Summon
-
-//SAME AS COLOR
 
 -----------------------FACT FOR SUMMON------------------------------
 // every Card is owned by a Deck
@@ -166,14 +35,162 @@ fact
 }
 -----------------------FACT FOR CARDS------------------------------
 
-pred Empty {}
-//only redCard
-pred  OnlyRed {
-all deck:Deck | deck.cards.color=red
+// ----------------------------------------- DECLARATION ----------------------------------------
+sig Card1 extends Card {} {
+name = "ArcboundWorker"
+color = Red
+cost = "1"
+sets ="DST DDF"
+type = Artifact
+power = 0
+endurence = 0
+text = "Modular 1 (This enters the battlefield with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)"
+price = 2
+}
+
+sig Card2 extends Card {} {
+name = "uglyBastard"
+color = Red
+cost = "1"
+sets = "DST DDF"
+type = Artifact
+power = 0
+endurence = 0
+text = "Modular 1 (This enters the battlefield with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)"
+price = 2
+}
+
+sig Card3 extends Card {} {
+name = "uglyBastard"
+color = Blue
+cost = "1"
+sets ="DST DDF"
+type =Enchant
+power = 0
+endurence = 0
+text = "Modular 1 (This enters the battlefield with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)"
+price = 2
+}
+
+sig Creature1 extends Card {} {
+name = "uglyBastard"
+color = Blue
+cost = "1"
+sets ="DST DDF"
+type =Creature
+creatureType ="Elf"
+power = 2
+endurence = 2
+text = "Modular 1 (This enters the battlefield with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)"
+price = 2
 }
 
 
-// try to instanciate 3 cards
-//run Empty for exactly 2 Deck, 4 Card
-run  OnlyRed for exactly 2 Deck , 2 Card
-//run Empty for exactly 1 Deck , 3 EnchanT
+
+sig Creature2 extends Card {} {
+name = "uglyBastard"
+color = Blue
+cost = "1"
+sets ="DST DDF"
+type =Creature
+creatureType ="Elf"
+power = 1
+endurence = 1
+text = "Modular 1 (This enters the battlefield with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)"
+price = 2
+}
+
+
+//PAS REUSSI A LE FAIRE MAIS NECESSAIRE
+fact price {
+//sum x: e | ie sums the value of ie for each x in set e.  
+}
+
+------------------------------------FACT LIST TO CHOOSE----------------------
+
+
+-----------------------GENERAL----------------------------------------
+//number of card whiches
+fact NumberTotalCard {
+#{card:Card,deck:Deck|card in deck.cards}>1&&#{card:Card,deck:Deck|card in deck.cards}<3
+}
+
+
+/*fact NumberType {
+#{card:Card,deck:Deck|card in deck.cards &&card.type=Artifact}>1
+&&#{card:Card,deck:Deck|card in deck.cards &&card.type=Artifact}<=3
+//you need to choose your type and you can duplicate this one to choose for many type
+
+}
+*/
+-----------------------CREATURE----------------------------------------
+/*fact PowerForAllCreature{
+all deck:Deck | deck.cards.type=Creature&&
+deck.cards.power>1 && deck.cards.power<3
+}
+
+fact EndurenceForAllCreature {
+all deck:Deck | deck.cards.type=Creature&&
+deck.cards.endurence>1 && deck.cards.endurence<3
+}
+*/
+
+/*fact NumberCreatureWithPower{
+#{card:Card,deck:Deck|card in deck.cards &&card.power>1&&card.power<3}>1
+}
+
+fact NumberCreatureWithEndurence{
+#{card:Card,deck:Deck|card in deck.cards &&card.endurence>1&&card.endurence<3}>1
+}
+*/
+/*fact NumberCreatureWithPowerAndEndurance{
+#{card:Card,deck:Deck|card in deck.cards &&card.power>1&&card.power<3
+&&card.endurence>1&&card.endurence<3
+}>1
+}
+*/
+
+/*fact typeForAllCreature {
+all deck:Deck | deck.cards.type=Creature&&deck.cards.creatureType = "Elf" 
+|| deck.cards.type=Creature&& deck.cards.creatureType = "Gobelin"
+}
+*/
+/*
+fact NumberCreatureType{
+#{card:Card,deck:Deck|card in deck.cards &&card.creatureType = "Elf" || 
+card in deck.cards &&card.creatureType = "Gobelin"
+}>1
+}
+*/
+
+fact NumberCreaturePowerEnduranceandType {
+#{card:Card,deck:Deck|card in deck.cards &&card.power>1&&card.power<3
+&&card.endurence>1&&card.endurence<3
+&&card.creatureType = "Elf" || card.creatureType = "Gobelin"
+}>1
+}
+
+-----------------------ENCHANTEMENT----------------------------------------
+
+
+--------------pred for color----------------------------------
+
+//Can be predicate
+//only One color
+pred OnlyOneColor {
+all deck:Deck | deck.cards.color = Red//youi need to choose your color
+}
+
+//only two color
+
+pred OnlyTwoColor {
+all deck:Deck | deck.cards.color = Red ||
+all deck:Deck | deck.cards.color = Blue //youi need to choose your color
+}
+
+//you can continue to have all the color you want
+pred  empty {}
+
+
+run  empty for exactly 1 Deck , 3 Card
+
