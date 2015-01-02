@@ -1,12 +1,8 @@
 package controller;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.ArrayList;
+
 
 public class Main {
     
@@ -64,12 +60,12 @@ public class Main {
             
         */
         
-        CardParser.parseDatabase("mini-db/");
+        CardParser.parseDatabase("Database/");
         
         // ---> write all card into a file, with the Alloy format
         try
         {
-            String filename = "alloy-models/mini-db-generated.als";
+            String filename = "alloy-models/database-generated.als";
             FileWriter fw = new FileWriter(filename,true); //the true will append the new data
             /*
             fw.write(sigDeck + "\n"
