@@ -1,12 +1,5 @@
 package controller;
 
-import java.io.File;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.util.Collections;
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.Map;
 
 public class Main {
 
@@ -39,7 +32,9 @@ public class Main {
         CardParser.parseDatabase("Database");
         
         // display all types from all cards
-        System.out.println(CardParser.getTexts().size());
+        //System.out.println(CardParser.getTypes());
+        
+        System.out.println(CardParser.database.size());
         
         System.out.println("Alloy me honey");
 
