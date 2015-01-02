@@ -32,6 +32,10 @@ import java.util.Iterator;
  *
  */
 public class CardParser {
+    
+    static private ArrayList<String> colors = new ArrayList<String>();
+    
+    static private ArrayList<String> costs = new ArrayList<String>();
 
     static private ArrayList<String> editions = new ArrayList<String>();
     
@@ -41,7 +45,7 @@ public class CardParser {
     
     // KEY : name of the card
     // VALUE : Card object reference
-    static Hashtable<String, Card> database = new Hashtable<String, Card>();
+    static ArrayList<Card> database = new ArrayList<Card>();
     
     /**
      * Get all editions encountered during previous parsing.
@@ -66,7 +70,7 @@ public class CardParser {
     
     /**
      * Get all types encountered during previous parsing.
-     * Remove same values, and sort alphabeticaly editions.
+     * Remove same values, and sort alphabeticaly types.
      * @return Magic Card types encountered
      */
     static public ArrayList<String> getTypes() {
@@ -84,6 +88,69 @@ public class CardParser {
         
         return types;
     }
+    
+    /**
+     * Get all texts encountered during previous parsing.
+     * Remove same values, and sort alphabeticaly texts.
+     * @return Magic Card texts encountered
+     */
+    static public ArrayList<String> getTexts() {
+        ArrayList<String> textsWithoutDuplicates = new ArrayList<String>(); 
+        
+        for (int i = 0; i < texts.size(); i++) {
+            if (!textsWithoutDuplicates.contains(texts.get(i))) {
+                textsWithoutDuplicates.add(texts.get(i));
+            }
+        }
+        
+        Collections.sort(textsWithoutDuplicates);
+        
+        texts = textsWithoutDuplicates;
+        
+        return texts;
+    }
+    
+    /**
+     * Get all colors encountered during previous parsing.
+     * Remove same values, and sort alphabeticaly colors.
+     * @return Magic Card colors encountered
+     */
+    static public ArrayList<String> getColors() {
+        ArrayList<String> colorsWithoutDuplicates = new ArrayList<String>(); 
+        
+        for (int i = 0; i < colors.size(); i++) {
+            if (!colorsWithoutDuplicates.contains(colors.get(i))) {
+                colorsWithoutDuplicates.add(colors.get(i));
+            }
+        }
+        
+        Collections.sort(colorsWithoutDuplicates);
+        
+        colors = colorsWithoutDuplicates;
+        
+        return colors;
+    }
+    
+    /**
+     * Get all costs encountered during previous parsing.
+     * Remove same values, and sort alphabeticaly cost.
+     * @return Magic Card cost encountered
+     */
+    static public ArrayList<String> getCosts() {
+        ArrayList<String> costsWithoutDuplicates = new ArrayList<String>(); 
+        
+        for (int i = 0; i < costs.size(); i++) {
+            if (!costsWithoutDuplicates.contains(costs.get(i))) {
+                costsWithoutDuplicates.add(costs.get(i));
+            }
+        }
+        
+        Collections.sort(costsWithoutDuplicates);
+        
+        costs = costsWithoutDuplicates;
+        
+        return costs;
+    }
 
     /**
      * Parse the database containing all the cards text and convert card to the corresponding Card object.
@@ -94,7 +161,7 @@ public class CardParser {
      * @param path directory containing cards
      * @return hashtable with the cardname as key, and the corresonding Card object as value
      */
-    public static Hashtable<String, Card> parseDatabase(String path) {
+    public static ArrayList<Card> parseDatabase(String path) {
 
         // directory containing all .txt card files
         File directory = new File(path);
@@ -108,7 +175,6 @@ public class CardParser {
         // parse files
         for (File f : directory.listFiles()) {
             Card card = parseSingleCard(f.getAbsolutePath());
-            database.put(card.name, card);
         }
 
         Collections.sort(texts);
@@ -117,6 +183,7 @@ public class CardParser {
 
     /**
      * Convert a card text file to a Card object.
+     * Append the Card object to CardParser.database
      * @param path origin
      * @return Card
      */
@@ -136,9 +203,11 @@ public class CardParser {
                 }
                 else if (sCurrentLine.startsWith("Color: ")) {
                     card.setColor(sCurrentLine.split("Color: ")[1].toString());
+                    colors.add(sCurrentLine.split("Color: ")[1].toString());
                 }
                 else if (sCurrentLine.startsWith("Cost")) {
                     card.setCost(sCurrentLine.split("Cost: ")[1].toString());
+                    costs.add(sCurrentLine.split("Cost: ")[1].toString());
                 }
                 else if (sCurrentLine.startsWith("Sets: ")) {
                     card.setSets(sCurrentLine.split("Sets: ")[1].toString());
@@ -150,15 +219,9 @@ public class CardParser {
                     }
                 }
                 else if (sCurrentLine.startsWith("Type: ")) {
-                    // !!!
-                    // todo ameliorate parsing
-                    // !!!
-                    String[] type = sCurrentLine.split("Type: ");
-                    card.setType(type[1]);
-                    if (!types.contains(type[1]) || types.size() == 0) {
-                        types.add(type[1]);
-                    }
-                    types.add(type[1]);           
+                    // get only first type
+                    card.setType(sCurrentLine.substring(6).split(" ")[0]);
+                    types.add(sCurrentLine.substring(6).split(" ")[0]);           
                 }
                 else if (sCurrentLine.startsWith("Power: ")) {
                     int[] power = new int[2];
@@ -204,6 +267,8 @@ public class CardParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        database.add(card);
         
         return card;
     }
