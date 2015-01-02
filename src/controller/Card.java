@@ -15,14 +15,14 @@ public class Card {
     public int[] power = new int[2];
     public String text;
     public String toString;
-    public float price = 0;
+    public int price = 0;
 
     public Card() {
         // empty
     }
 
     public Card(String name, String color, String cost, String m12,
-            String type, int[] power, String text, float price, String toString) {
+            String type, int[] power, String text, int price, String toString) {
         super();
         this.name   = name;
         this.color  = color;
@@ -95,7 +95,7 @@ public class Card {
         this.text = text;
     }
 
-    public void setPrice(float price) {
+    public void setPrice(int price) {
         this.price = price; 
     }
     
@@ -113,6 +113,31 @@ public class Card {
         this.text + "\n" +
         this.price;
         
+    }
+    
+    public String toAlloy(String sigName) {
+        if (this.color.equals("Artifact")) {
+            this.color = "ArtifactColor";
+        }
+        
+        // the price is random and should be scraped from online websites with Magic prices
+        int Max = 100;
+        int Min = 0;
+        this.price = (int)Math.round(Math.random() * ( Max - Min ));
+        String alloy = "sig " + sigName + " extends Card {} {\n"
+                + "\tname = \""+ this.name.replace(" ", "") + "\"\n"
+                + "\tcolor = " + this.color + "\n"
+                + "\tcost = \"" + this.cost + "\"\n"
+                + "\tsets = \"" + this.sets + "\"\n"
+                + "\ttype = " + this.type + "\n"
+                + "\tpower = " + this.power[0] + "\n"
+                + "\tendurence = " + this.power[1] + "\n"
+                + "\ttext = \"" + this.text.replace("\"", "'") + "\"\n"
+                + "\tprice = " + this.price + "\n"
+                + "}";
+
+        return alloy;
+
     }
     
 }

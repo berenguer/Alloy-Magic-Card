@@ -175,7 +175,6 @@ public class CardParser {
         // parse files
         for (File f : directory.listFiles()) {
             Card card = parseSingleCard(f.getAbsolutePath());
-            database.add(card);
         }
 
         Collections.sort(texts);
@@ -184,6 +183,7 @@ public class CardParser {
 
     /**
      * Convert a card text file to a Card object.
+     * Append the Card object to CardParser.database
      * @param path origin
      * @return Card
      */
@@ -267,6 +267,8 @@ public class CardParser {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        
+        database.add(card);
         
         return card;
     }
