@@ -19,6 +19,51 @@ endurence: lone Int,//lone coz if no creature dont exist
 text: String,
 price: Int
 }
+
+/*
+// un cout se compose de 6 couleurs
+sig Cost{
+green: Int,
+red:Int,
+blue: Int,
+white: Int,
+black:Int,
+uncolored:Int,
+amplifier:Bool
+}
+
+// une couleur se compose de 7 composantes
+sig Color{
+green: Bool,
+red:Bool,
+blue: Bool,
+white: Bool,
+black:Bool,
+artifact:Bool,
+colorless:Bool
+}
+
+
+// les couts en mana d'une couleur ne doivent pas dépasser 10
+//la somme des couts des couleurs ne doivent pas dépasser 20
+pred expectedCost{
+all c:Cost |
+c.green>-1  and
+c.green<11  &&
+c.red>0  &&
+c.red<11 &&
+c.blue>0  &&
+c.blue<11  &&
+c.white>0 &&
+c.white<11 &&
+c.black>0 &&
+c.black<11  &&
+c.uncolored>0 &&
+c.uncolored<11
+
+}
+*/
+
 -----------------------ENUM------------------------------
 abstract sig Color {}
 one sig ArtifactColor, Black, Blue, Colorless, Gold, Green, Red, White extends Color {}
@@ -34,8 +79,33 @@ fact
 	all i_cards: Card | one deck: Deck | i_cards in deck.cards
 }
 -----------------------FACT FOR CARDS------------------------------
+/*
+// une carte ne peut pas couter + de 20
+fact maxCost{
+all c:Cost|
+{c.green+ c.red+c.uncolored+c.blue+c.green+c.black+c.white}<21
 
+}
+
+// les couts doivent apartenir à une carte
+fact costIsBoundToCard{
+
+ all cost1:Cost | one card1:Card | cost1 in card1.cost
+}
+// les colors doivent apartenir à une carte
+fact colorIsBoundToCard{
+
+ all color1:Color | one card1:Card | color1 in card1.color
+}*/
 // ----------------------------------------- DECLARATION ----------------------------------------
+
+/*fact DeclareWithFact
+{
+ all card  :Creature | card.name=bob=> {
+card.power=n3
+card.cost=c5 }
+}*/
+
 sig Card1 extends Card {} {
 name = "ArcboundWorker"
 color = Red
@@ -103,7 +173,7 @@ price = 2
 
 //PAS REUSSI A LE FAIRE MAIS NECESSAIRE
 fact price {
-//sum x: e | ie sums the value of ie for each x in set e.  
+//sum x: e | ie sums the value of ie for each x in set e.
 }
 
 ------------------------------------FACT LIST TO CHOOSE----------------------
@@ -124,6 +194,17 @@ fact NumberTotalCard {
 }
 */
 -----------------------CREATURE----------------------------------------
+/*pred CostForAllCreature {
+all deck:Deck |{
+deck.cards.cost.green+
+deck.cards.cost.red +
+deck.cards.cost.white +
+deck.cards.cost.blue +
+deck.cards.cost.uncolored +
+deck.cards.cost.black}<5
+}*/
+
+
 /*fact PowerForAllCreature{
 all deck:Deck | deck.cards.type=Creature&&
 deck.cards.power>1 && deck.cards.power<3
@@ -151,13 +232,13 @@ fact NumberCreatureWithEndurence{
 */
 
 /*fact typeForAllCreature {
-all deck:Deck | deck.cards.type=Creature&&deck.cards.creatureType = "Elf" 
+all deck:Deck | deck.cards.type=Creature&&deck.cards.creatureType = "Elf"
 || deck.cards.type=Creature&& deck.cards.creatureType = "Gobelin"
 }
 */
 /*
 fact NumberCreatureType{
-#{card:Card,deck:Deck|card in deck.cards &&card.creatureType = "Elf" || 
+#{card:Card,deck:Deck|card in deck.cards &&card.creatureType = "Elf" ||
 card in deck.cards &&card.creatureType = "Gobelin"
 }>1
 }
