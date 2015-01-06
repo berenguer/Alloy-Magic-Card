@@ -21,9 +21,9 @@ text: String,
 price: Int
 }
 
-sig Game{
-deck1:Deck,
-deck2:Deck
+sig Game {
+deck1: one Deck,
+deck2: one Deck
 }
 
 /*
@@ -83,6 +83,10 @@ one sig Artifact, Basic, Creature, Eaturecray, Enchant, Enchantment, Instant, In
 fact
 {
 	all i_cards: Card | one deck: Deck | i_cards in deck.cards
+}
+fact
+{
+	all i_deck: Deck | one game: Game | i_deck in game.deck1 or i_deck in game.deck2
 }
 -----------------------FACT FOR CARDS------------------------------
 /*
@@ -177,15 +181,15 @@ price = 5
 }
 
 
-//PAS REUSSI A LE FAIRE MAIS NECESSAIRE
+// A deck value is the sum of the values of their cards.
+// Two deck have to be of equals values.
 fact price {
-//sum x: e | ie sums the value of ie for each x in set e.
-Deck.deckValue ={sum c:Card| c.price}
+one game:Game|
+game.deck1.deckValue ={sum c:Game.deck1.cards | c.price} &&
+game.deck2.deckValue ={sum c:Game.deck2.cards | c.price} &&
+game.deck1.deckValue =game.deck2.deckValue
 }
-fact price1 {
-//sum x: e | ie sums the value of ie for each x in set e.
-Deck.deckValue =25
-}
+
 
 
 ------------------------------------FACT LIST TO CHOOSE----------------------
@@ -285,5 +289,5 @@ all deck:Deck | deck.cards.color = Blue //youi need to choose your color
 pred  empty {}
 
 
-run  empty for exactly 1 Deck , 10 Card, 8 Int, 1 Game
+run  empty for exactly 2 Deck , 20 Card, 1 Game, 10 Int
 
