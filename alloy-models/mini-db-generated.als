@@ -1,3 +1,4 @@
+module myDB
 sig Card0 extends Card {} {
 	name = "KamiofthePalaceFields"
 	color = White

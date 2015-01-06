@@ -1,4 +1,4 @@
-
+//open miniDBGenerated
 ---WARNING--
 //J'ai l'impression que l'on peut pas etendre plusieurs fois "card" et lancer le main sinon ca merde , a test avec EnchanT qui est commenté
 
@@ -88,33 +88,15 @@ fact
 {
 	all i_deck: Deck | one game: Game | i_deck in game.deck1 or i_deck in game.deck2
 }
------------------------FACT FOR CARDS------------------------------
-/*
-// une carte ne peut pas couter + de 20
-fact maxCost{
-all c:Cost|
-{c.green+ c.red+c.uncolored+c.blue+c.green+c.black+c.white}<21
-
-}
-
-// les couts doivent apartenir à une carte
-fact costIsBoundToCard{
-
- all cost1:Cost | one card1:Card | cost1 in card1.cost
-}
-// les colors doivent apartenir à une carte
-fact colorIsBoundToCard{
-
- all color1:Color | one card1:Card | color1 in card1.color
+/*fact
+{
+	all i_cost: String |one card1:Card |i_cost in card1.cost
 }*/
+-----------------------FACT FOR CARDS------------------------------
+
 // ----------------------------------------- DECLARATION ----------------------------------------
 
-/*fact DeclareWithFact
-{
- all card  :Creature | card.name=bob=> {
-card.power=n3
-card.cost=c5 }
-}*/
+
 
 sig Card1 extends Card {} {
 name = "ArcboundWorker"
@@ -182,13 +164,25 @@ price = 5
 
 
 // A deck value is the sum of the values of their cards.
-// Two deck have to be of equals values.
-fact price {
+// Two deck have to be almost of equals values. NE MARCHE PAS ACTUELLEMENT
+pred almostSameDeckPrice {
 one game:Game|
 game.deck1.deckValue ={sum c:Game.deck1.cards | c.price} &&
 game.deck2.deckValue ={sum c:Game.deck2.cards | c.price} &&
-game.deck1.deckValue =game.deck2.deckValue
+	{
+	{game.deck1.deckValue - game.deck2.deckValue <10 && game.deck1.deckValue - game.deck2.deckValue >-1} or
+	{game.deck2.deckValue - game.deck1.deckValue <10 && game.deck2.deckValue - game.deck1.deckValue >-1}
+	}
 }
+// Two deck have to be of equals values.
+fact SameDeckPrice {
+one game:Game|
+game.deck1.deckValue ={sum c:Game.deck1.cards | c.price} &&
+game.deck2.deckValue ={sum c:Game.deck2.cards | c.price} &&
+game.deck1.deckValue = game.deck2.deckValue 
+}
+	
+	
 
 
 
@@ -196,10 +190,16 @@ game.deck1.deckValue =game.deck2.deckValue
 
 
 -----------------------GENERAL----------------------------------------
+pred NumberTotalCard {
+#{card:Card,deck:Deck|card in deck.cards}>5 &&#{card:Card,deck:Deck|card in deck.cards}<15
+}
 //number of card whiches
-/*fact NumberTotalCard {
-#{card:Card,deck:Deck|card in deck.cards}>1&&#{card:Card,deck:Deck|card in deck.cards}<3
-}*/
+pred NumberTotalCardD1 {
+#{card:Card,deck:Deck|card in Game.deck1.cards}>7&&#{card:Card,deck:Deck|card in Game.deck1.cards}<10
+}
+pred NumberTotalCardD2 {
+#{card:Card,deck:Deck|card in Game.deck2.cards}>1&&#{card:Card,deck:Deck|card in Game.deck2.cards}<5
+}
 
 
 /*fact NumberType {
@@ -286,8 +286,12 @@ all deck:Deck | deck.cards.color = Blue //youi need to choose your color
 }
 
 //you can continue to have all the color you want
+
+
+
+
 pred  empty {}
 
 
-run  empty for exactly 2 Deck , 20 Card, 1 Game, 10 Int
+run NumberTotalCard for 11 Int,10 Card, exactly 2 Deck , 1 Game
 
