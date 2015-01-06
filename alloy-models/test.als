@@ -1,10 +1,11 @@
-------------------------------------MANQUE LA PARTIE COULEUR DE MAX D-----------
+
 ---WARNING--
 //J'ai l'impression que l'on peut pas etendre plusieurs fois "card" et lancer le main sinon ca merde , a test avec EnchanT qui est commenté
 
 -----------------------SIG------------------------------
 sig Deck {
-	cards: some Card
+	cards: some Card,
+deckValue:Int
 }
 
 abstract sig Card {
@@ -18,6 +19,11 @@ power: lone Int,//lone coz if no creature dont exist
 endurence: lone Int,//lone coz if no creature dont exist
 text: String,
 price: Int
+}
+
+sig Game{
+deck1:Deck,
+deck2:Deck
 }
 
 /*
@@ -115,7 +121,7 @@ type = Artifact
 power = 0
 endurence = 0
 text = "Modular 1 (This enters the battlefield with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)"
-price = 2
+price = 1
 }
 
 sig Card2 extends Card {} {
@@ -139,7 +145,7 @@ type =Enchant
 power = 0
 endurence = 0
 text = "Modular 1 (This enters the battlefield with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)"
-price = 2
+price = 3
 }
 
 sig Creature1 extends Card {} {
@@ -152,7 +158,7 @@ creatureType ="Elf"
 power = 2
 endurence = 2
 text = "Modular 1 (This enters the battlefield with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)"
-price = 2
+price = 4
 }
 
 
@@ -167,23 +173,29 @@ creatureType ="Elf"
 power = 1
 endurence = 1
 text = "Modular 1 (This enters the battlefield with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)"
-price = 2
+price = 5
 }
 
 
 //PAS REUSSI A LE FAIRE MAIS NECESSAIRE
 fact price {
 //sum x: e | ie sums the value of ie for each x in set e.
+Deck.deckValue ={sum c:Card| c.price}
 }
+fact price1 {
+//sum x: e | ie sums the value of ie for each x in set e.
+Deck.deckValue =25
+}
+
 
 ------------------------------------FACT LIST TO CHOOSE----------------------
 
 
 -----------------------GENERAL----------------------------------------
 //number of card whiches
-fact NumberTotalCard {
+/*fact NumberTotalCard {
 #{card:Card,deck:Deck|card in deck.cards}>1&&#{card:Card,deck:Deck|card in deck.cards}<3
-}
+}*/
 
 
 /*fact NumberType {
@@ -244,12 +256,12 @@ card in deck.cards &&card.creatureType = "Gobelin"
 }
 */
 
-fact NumberCreaturePowerEnduranceandType {
+/*fact NumberCreaturePowerEnduranceandType {
 #{card:Card,deck:Deck|card in deck.cards &&card.power>1&&card.power<3
 &&card.endurence>1&&card.endurence<3
 &&card.creatureType = "Elf" || card.creatureType = "Gobelin"
 }>1
-}
+}*/
 
 -----------------------ENCHANTEMENT----------------------------------------
 
@@ -273,5 +285,5 @@ all deck:Deck | deck.cards.color = Blue //youi need to choose your color
 pred  empty {}
 
 
-run  empty for exactly 1 Deck , 3 Card
+run  empty for exactly 1 Deck , 10 Card, 8 Int, 1 Game
 
