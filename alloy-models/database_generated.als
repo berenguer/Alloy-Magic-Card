@@ -11,6 +11,15 @@ text: String,
 price: Int
 }
 
+-----------------------ENUM------------------------------
+abstract sig Color {}
+one sig ArtifactColor, Black, Blue, Colorless, Gold, Green, Red, White extends Color {}
+
+abstract sig Type {}
+one sig Artifact, Basic, Creature, Eaturecray, Enchant, Enchantment, Instant, Interrupt, Land, Legendary, Planeswalker, Scariest, Snow, Sorcery, Summon, Tribal, World extends Type {}
+
+
+
 sig Card0 extends Card {} {
 	name = "EssenceWarden"
 	color = Green
@@ -27720,17 +27729,6 @@ sig Card2518 extends Card {} {
 	text = "Flying{T}: If the top card of target player's graveyard is a creature card, put that card on top of that player's library."
 	price = 69
 }
-sig Card2519 extends Card {} {
-	name = ""Ach!Hans,Run!""
-	color = Gold
-	cost = "2RRGG"
-	sets = "UNH"
-	type = Enchantment
-	power = 0
-	endurence = 0
-	text = "At the beginning of your upkeep, you may say 'Ach Hans, run It's the . . .' and name a creature card. If you do, search your library for the named card, put it into play, then shuffle your library. That creature has haste. Remove it from the game at end of turn."
-	price = 22
-}
 sig Card2520 extends Card {} {
 	name = "BorealShelf"
 	color = Colorless
@@ -36508,17 +36506,6 @@ sig Card3317 extends Card {} {
 	endurence = 1
 	text = "Whenever Lurking Nightstalker attacks, it gets +2/+0 until end of turn."
 	price = 3
-}
-sig Card3318 extends Card {} {
-	name = "PangTong,"YoungPhoenix""
-	color = White
-	cost = "1WW"
-	sets = "PTK"
-	type = Legendary
-	power = 1
-	endurence = 2
-	text = "{T}: Target creature gets +0/+2 until end of turn. Activate this ability only during your turn, before attackers are declared."
-	price = 59
 }
 sig Card3319 extends Card {} {
 	name = "KrovikanHorror"
@@ -76362,17 +76349,6 @@ sig Card6940 extends Card {} {
 	text = "Enchant creatureEnchanted creature gets -1/-1 and has fear. (It can't be blocked except by artifact creatures and/or black creatures.)"
 	price = 50
 }
-sig Card6941 extends Card {} {
-	name = "NamelessRace"
-	color = Black
-	cost = "3B"
-	sets = "DRK"
-	type = null
-	power = -1
-	endurence = -1
-	text = "TrampleAs Nameless Race enters the battlefield, pay any amount of life. The amount you pay can't be more than the total number of white nontoken permanents your opponents control plus the total number of white cards in their graveyards.Nameless Race's power and toughness are each equal to the life paid as it entered the battlefield."
-	price = 30
-}
 sig Card6942 extends Card {} {
 	name = "Backfire"
 	color = Blue
@@ -79243,17 +79219,6 @@ sig Card7202 extends Card {} {
 	endurence = 2
 	text = "Flying"
 	price = 30
-}
-sig Card7203 extends Card {} {
-	name = "Kongming,"SleepingDragon""
-	color = White
-	cost = "2WW"
-	sets = "PTK"
-	type = Legendary
-	power = 2
-	endurence = 2
-	text = "Other creatures you control get +1/+1."
-	price = 72
 }
 sig Card7204 extends Card {} {
 	name = "Justice"
@@ -91058,17 +91023,6 @@ sig Card8276 extends Card {} {
 	text = "{W}, {T}: Tap target creature."
 	price = 74
 }
-sig Card8277 extends Card {} {
-	name = "Soldiertokencard"
-	color = ArtifactColor
-	cost = "	"
-	sets = "UGL"
-	type = 	
-	power = 0
-	endurence = 0
-	text = "	"
-	price = 76
-}
 sig Card8278 extends Card {} {
 	name = "Glimmerpost"
 	color = Colorless
@@ -93543,17 +93497,6 @@ sig Card8502 extends Card {} {
 	endurence = 1
 	text = "Flying, protection from red"
 	price = 19
-}
-sig Card8503 extends Card {} {
-	name = "Pegasustokencard"
-	color = ArtifactColor
-	cost = "	"
-	sets = "UGL"
-	type = 	
-	power = 0
-	endurence = 0
-	text = "	"
-	price = 13
 }
 sig Card8504 extends Card {} {
 	name = "PhyrexianVatmother"
@@ -100044,17 +99987,6 @@ sig Card9093 extends Card {} {
 	endurence = 3
 	text = "Vigilance{W}: Loxodon Stalwart gets +0/+1 until end of turn."
 	price = 12
-}
-sig Card9094 extends Card {} {
-	name = "Squirreltokencard"
-	color = ArtifactColor
-	cost = "	"
-	sets = "UGL"
-	type = 	
-	power = 0
-	endurence = 0
-	text = "	"
-	price = 3
 }
 sig Card9095 extends Card {} {
 	name = "FalkenrathTorturer"
@@ -119944,17 +119876,6 @@ sig Card10902 extends Card {} {
 	text = "Flying, vigilance"
 	price = 97
 }
-sig Card10903 extends Card {} {
-	name = "Goblintokencard"
-	color = ArtifactColor
-	cost = "	"
-	sets = "UGL"
-	type = 	
-	power = 0
-	endurence = 0
-	text = "	"
-	price = 50
-}
 sig Card10904 extends Card {} {
 	name = "RibCageSpider"
 	color = Green
@@ -136531,17 +136452,6 @@ sig Card12410 extends Card {} {
 	endurence = 0
 	text = "Look at the top five cards of your library. You may reveal an instant or sorcery card from among them and put it into your hand. Put the rest on the bottom of your library in any order."
 	price = 4
-}
-sig Card12411 extends Card {} {
-	name = "Sheeptokencard"
-	color = ArtifactColor
-	cost = "	"
-	sets = "UGL"
-	type = 	
-	power = 0
-	endurence = 0
-	text = "	"
-	price = 87
 }
 sig Card12412 extends Card {} {
 	name = "BogGlider"

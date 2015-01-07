@@ -1,24 +1,4 @@
-open MagicSchema
-open miniDBGenerated
-
-abstract sig Card {
-name: String,
-color: Color,
-cost: String,
-sets: String,
-type: Type,
-creatureType : lone String,//lone coz if no creature dont exist
-power: lone Int,//lone coz if no creature dont exist
-endurence: lone Int,//lone coz if no creature dont exist
-text: String,
-price: Int
-}
------------------------ENUM------------------------------
-abstract sig Color {}
-one sig ArtifactColor, Black, Blue, Colorless, Gold, Green, Red, White extends Color {}
-
-abstract sig Type {}
-one sig Artifact, Basic, Creature, Eaturecray, Enchant, Enchantment, Instant, Interrupt, Land, Legendary, Planeswalker, Scariest, Snow, Sorcery, Summon, Tribal, World extends Type {}
+open database_generated
 
 -----------------------SIG------------------------------
 sig Deck {
@@ -33,7 +13,6 @@ deck1: one Deck,
 deck2: one Deck
 }
 
-
 -----------------------FACT FOR SUMMON------------------------------
 // every Card is owned by a Deck
 fact
@@ -44,8 +23,6 @@ fact
 {
 	all i_deck: Deck | one game: Game | i_deck in game.deck1 or i_deck in game.deck2
 }
-
-
 
 
 // A deck value is the sum of the values of their cards.
