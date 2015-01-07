@@ -1,10 +1,5 @@
-//open miniDBGenerated
-
------------------------SIG------------------------------
-sig Deck {
-	cards: some Card,
-deckValue:Int
-}
+open MagicSchema
+open miniDBGenerated
 
 abstract sig Card {
 name: String,
@@ -18,20 +13,25 @@ endurence: lone Int,//lone coz if no creature dont exist
 text: String,
 price: Int
 }
-
-sig Game {
-deck1: one Deck,
-deck2: one Deck
-}
-
-
-
 -----------------------ENUM------------------------------
 abstract sig Color {}
 one sig ArtifactColor, Black, Blue, Colorless, Gold, Green, Red, White extends Color {}
 
 abstract sig Type {}
 one sig Artifact, Basic, Creature, Eaturecray, Enchant, Enchantment, Instant, Interrupt, Land, Legendary, Planeswalker, Scariest, Snow, Sorcery, Summon, Tribal, World extends Type {}
+
+-----------------------SIG------------------------------
+sig Deck {
+	cards: some Card,
+deckValue:Int
+}
+
+
+
+sig Game {
+deck1: one Deck,
+deck2: one Deck
+}
 
 
 -----------------------FACT FOR SUMMON------------------------------
@@ -46,73 +46,6 @@ fact
 }
 
 
-// ----------------------------------------- DECLARATION ----------------------------------------
-
-
-
-sig Card1 extends Card {} {
-name = "ArcboundWorker"
-color = Red
-cost = "1"
-sets ="DST DDF"
-type = Artifact
-power = 0
-endurence = 0
-text = "Modular 1 (This enters the battlefield with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)"
-price = 1
-}
-
-sig Card2 extends Card {} {
-name = "uglyBastard"
-color = Red
-cost = "1"
-sets = "DST DDF"
-type = Artifact
-power = 0
-endurence = 0
-text = "Modular 1 (This enters the battlefield with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)"
-price = 2
-}
-
-sig Card3 extends Card {} {
-name = "uglyBastard"
-color = Blue
-cost = "1"
-sets ="DST DDF"
-type =Enchant
-power = 0
-endurence = 0
-text = "Modular 1 (This enters the battlefield with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)"
-price = 3
-}
-
-sig Creature1 extends Card {} {
-name = "uglyBastard"
-color = Blue
-cost = "1"
-sets ="DST DDF"
-type =Creature
-creatureType ="Elf"
-power = 2
-endurence = 2
-text = "Modular 1 (This enters the battlefield with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)"
-price = 4
-}
-
-
-
-sig Creature2 extends Card {} {
-name = "uglyBastard"
-color = Blue
-cost = "1"
-sets ="DST DDF"
-type =Creature
-creatureType ="Elf"
-power = 1
-endurence = 1
-text = "Modular 1 (This enters the battlefield with a +1/+1 counter on it. When it dies, you may put its +1/+1 counters on target artifact creature.)"
-price = 5
-}
 
 
 // A deck value is the sum of the values of their cards.
@@ -391,5 +324,5 @@ pred OnlyTwoColorD1[myColor1:Color,myColor2:Color] {
 
 
 
-run { BeetweenNumberTotalCardD1[1,10] and OnlyTwoColorD1[Red,Blue] } for 12 Int,10 Card, exactly 2 Deck , 1 Game
+run { BeetweenNumberTotalCardD1[1,10] and OnlyTwoColorD1[Red,Blue] } for 10 Int,10 Card, exactly 2 Deck , 1 Game
 
