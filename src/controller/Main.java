@@ -3,6 +3,9 @@ package controller;
 import java.io.FileWriter;
 import java.io.IOException;
 
+import alloy.Chastor;
+import modelMagic.CardParser;
+
 
 public class Main {
     
@@ -60,12 +63,19 @@ public class Main {
             
         */
         
-        CardParser.parseDatabase("Database/");
         
-        // ---> write all card into a file, with the Alloy format
+        //CardParser.parseDatabase("Database/");
+                
+        Chastor.run("alloy-models/test.als");
+        
+        System.out.println("--> end <--");
+    }
+    
+    // ---> write all card into a file, with the Alloy format
+    public static void generateAlloyDatabase(String path) {
         try
         {
-            String filename = "alloy-models/database-generated.als";
+            String filename = path;
             FileWriter fw = new FileWriter(filename,true); //the true will append the new data
             /*
             fw.write(sigDeck + "\n"
@@ -75,20 +85,15 @@ public class Main {
             */
             int cardNumber = 0;
             for (int i = 0; i < CardParser.database.size(); i++) {
-                
                 fw.write(CardParser.database.get(i).toAlloy("Card" + String.valueOf(cardNumber)).concat("\n"));
                 cardNumber ++;
             }
-
-            fw.close();
+            fw.close();           
         }
         catch(IOException ioe)
         {
             System.err.println("IOException: " + ioe.getMessage());
         }
-        
-        System.out.println("--> end <--");
-
     }
 
 }

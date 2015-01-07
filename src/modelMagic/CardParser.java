@@ -1,4 +1,4 @@
-package controller;
+package modelMagic;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -45,7 +45,7 @@ public class CardParser {
     
     // KEY : name of the card
     // VALUE : Card object reference
-    static ArrayList<Card> database = new ArrayList<Card>();
+    static public ArrayList<Card> database = new ArrayList<Card>();
     
     /**
      * Get all editions encountered during previous parsing.

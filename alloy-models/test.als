@@ -1,4 +1,4 @@
-open database_generated
+open database_mini_generated
 
 -----------------------SIG------------------------------
 sig Deck {

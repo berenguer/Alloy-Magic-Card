@@ -1,4 +1,24 @@
-module myDB
+abstract sig Card {
+name: String,
+color: Color,
+cost: String,
+sets: String,
+type: Type,
+creatureType : lone String,//lone coz if no creature dont exist
+power: lone Int,//lone coz if no creature dont exist
+endurence: lone Int,//lone coz if no creature dont exist
+text: String,
+price: Int
+}
+
+-----------------------ENUM------------------------------
+abstract sig Color {}
+one sig ArtifactColor, Black, Blue, Colorless, Gold, Green, Red, White extends Color {}
+
+abstract sig Type {}
+one sig Artifact, Basic, Creature, Eaturecray, Enchant, Enchantment, Instant, Interrupt, Land, Legendary, Planeswalker, Scariest, Snow, Sorcery, Summon, Tribal, World extends Type {}
+
+
 sig Card0 extends Card {} {
 	name = "KamiofthePalaceFields"
 	color = White

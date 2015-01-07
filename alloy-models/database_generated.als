@@ -19,7 +19,6 @@ abstract sig Type {}
 one sig Artifact, Basic, Creature, Eaturecray, Enchant, Enchantment, Instant, Interrupt, Land, Legendary, Planeswalker, Scariest, Snow, Sorcery, Summon, Tribal, World extends Type {}
 
 
-
 sig Card0 extends Card {} {
 	name = "EssenceWarden"
 	color = Green

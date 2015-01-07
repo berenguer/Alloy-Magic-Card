@@ -1,4 +1,4 @@
-package controller;
+package modelMagic;
 
 import java.util.Collections;
 
