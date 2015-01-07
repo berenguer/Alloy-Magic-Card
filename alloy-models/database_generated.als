@@ -1,3 +1,16 @@
+abstract sig Card {
+name: String,
+color: Color,
+cost: String,
+sets: String,
+type: Type,
+creatureType : lone String,//lone coz if no creature dont exist
+power: lone Int,//lone coz if no creature dont exist
+endurence: lone Int,//lone coz if no creature dont exist
+text: String,
+price: Int
+}
+
 sig Card0 extends Card {} {
 	name = "EssenceWarden"
 	color = Green
