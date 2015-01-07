@@ -44,11 +44,7 @@ fact
 {
 	all i_deck: Deck | one game: Game | i_deck in game.deck1 or i_deck in game.deck2
 }
-/*fact
-{
-	all i_cost: String |one card1:Card |i_cost in card1.cost
-}*/
------------------------FACT FOR CARDS------------------------------
+
 
 // ----------------------------------------- DECLARATION ----------------------------------------
 
@@ -137,6 +133,7 @@ game.deck1.deckValue ={sum c:Game.deck1.cards | c.price} &&
 game.deck2.deckValue ={sum c:Game.deck2.cards | c.price} &&
 game.deck1.deckValue = game.deck2.deckValue 
 }
+
 	
 	
 
@@ -147,8 +144,8 @@ game.deck1.deckValue = game.deck2.deckValue
 
 -----------------------GENERAL----------------------------------------
 
-//number of card whiches
-pred  BeetweenNumberTotalCardD [min:Int , max:Int] {
+-------------D1--------------------
+pred  BeetweenNumberTotalCardD1 [min:Int , max:Int] {
 #{card:Card,game:Game|card in game.deck1.cards}>=min&&#{card:Card,game:Game|card in game.deck1.cards}<=max
 }
 
@@ -165,8 +162,7 @@ pred ExactlyCardD1[min:Int] {
 
 
 
-
-
+-------------D2--------------------
 pred BeetweenNumberTotalCardD2[min:Int , max:Int] {
 #{card:Card,game:Game|card in game.deck2.cards}>=min&&#{card:Card,game:Game|card in game.deck2.cards}<=max
 }
@@ -174,11 +170,11 @@ pred BeetweenNumberTotalCardD2[min:Int , max:Int] {
 pred AtLeastCardD2[min:Int] {
 #{card:Card,game:Game|card in game.deck2.cards}>=min
 }
-pred AtMostCardD2[min:Int] {
-#{card:Card,game:Game|card in game.deck2.cards}<=min
+pred AtMostCardD2[max:Int] {
+#{card:Card,game:Game|card in game.deck2.cards}<=max
 }
 
-pred ExactlyCardD2[min:Int] {
+pred ExactCardD2[min:Int] {
 #{card:Card,game:Game|card in game.deck2.cards}=min
 }
 
@@ -187,13 +183,23 @@ pred ExactlyCardD2[min:Int] {
 
 
 
-pred NumberType[type1:Type,min:Int,max:Int] {
+pred BeetweenNumberTypeD1[type1:Type,min:Int,max:Int] {
 #{card:Card,game:Game|card in game.deck1.cards &&card.type=type1}>=min
 &&#{card:Card,game:Game|card in game.deck1.cards &&card.type=type1}<=max
+}
 
+pred ExactNumberTypeD1[type1:Type,number:Int] {
+#{card:Card,game:Game|card in game.deck1.cards &&card.type=type1}=number
 }
 
 
+pred AtLeastNumberTypeD1[type1:Type,number:Int] {
+#{card:Card,game:Game|card in game.deck1.cards &&card.type=type1}>=number
+}
+
+pred AtMostNumberTypeD1[type1:Type,number:Int] {
+#{card:Card,game:Game|card in game.deck1.cards &&card.type=type1}<=number
+}
 -----------------------CREATURE----------------------------------------
 
 -----------Power-------------------
@@ -215,9 +221,16 @@ pred AtMostCreatureWithPowerD1[myPowerMin:Int ,myPowerMax:Int,number:Int]{
 #{card:Card,game:Game|card in game.deck1.cards &&card.power>=myPowerMin&&card.power<=myPowerMax}<=number
 }
 
+pred BeetweenCreatureWithPowerD1[myPowerMin:Int ,myPowerMax:Int,min:Int,max:Int]{
+#{card:Card,game:Game|card in game.deck1.cards &&card.power>=myPowerMin&&card.power<=myPowerMax}>= min
+&& #{card:Card,game:Game|card in game.deck1.cards &&card.power>=myPowerMin&&card.power<=myPowerMax}<=max
+}
+
+
 
 
 -----------Endurence-------------------
+
 pred EndurenceForAllCreatureD1[myEnduMin:Int ,myEnduMax:Int] {
 all  game:Game| game.deck1.cards.type=Creature&&
 game.deck1.cards.endurence>=myEnduMin && game.deck1.cards.endurence<=myEnduMax
@@ -235,7 +248,13 @@ pred AtMostCreatureWithEndurenceD1[myEnduMin:Int ,myEnduMax:Int,number:Int] {
 #{card:Card,game:Game|card in game.deck1.cards &&card.endurence>=myEnduMin&&card.endurence<=myEnduMax}<=number
 }
 
+pred AtMostCreatureWithEndurenceD1[myEnduMin:Int ,myEnduMax:Int,min:Int ,max:Int] {
+#{card:Card,game:Game|card in game.deck1.cards &&card.endurence>=myEnduMin&&card.endurence<=myEnduMax}<=min
+&&#{card:Card,game:Game|card in game.deck1.cards &&card.endurence>=myEnduMin&&card.endurence<=myEnduMax}<=max
+}
+
 -----------Power and Endurance-------------------
+
 pred ExactNumberCreatureWithPowerAndEnduranceD1[myPowerMin:Int ,myPowerMax:Int,myEnduMin:Int,myEnduMax:Int,number:Int]
 {
 #{card:Card,game:Game|card in game.deck1.cards &&card.power>=myPowerMin&&card.power<=myPowerMax
@@ -256,7 +275,21 @@ pred AtMostCreatureWithPowerAndEnduranceD1[myPowerMin:Int ,myPowerMax:Int,myEndu
 &&card.endurence>=myEnduMin&&card.endurence<=myEnduMax
 }<=number
 }
+
+
+pred BeetweenCreatureWithPowerAndEnduranceD1[myPowerMin:Int ,myPowerMax:Int,myEnduMin:Int,myEnduMax:Int,min:Int,max:Int]
+{
+#{card:Card,game:Game|card in game.deck1.cards &&card.power>=myPowerMin&&card.power<=myPowerMax
+&&card.endurence>=myEnduMin&&card.endurence<=myEnduMax
+}>=min
+&&#{card:Card,game:Game|card in game.deck1.cards &&card.power>=myPowerMin&&card.power<=myPowerMax
+&&card.endurence>=myEnduMin&&card.endurence<=myEnduMax
+}<=max
+}
+
 -----------type--------------------
+
+
 pred TypeForAllCreatureD1  [myType1:String,myType2:String]{
 all game:Game | game.deck1.cards.type=Creature&&game.deck1.cards.creatureType = myType1
 || game.deck1.cards.type=Creature&& game.deck1.cards.creatureType = myType2
@@ -282,6 +315,15 @@ card in game.deck1.cards &&card.creatureType = myType2
 }>=number
 }
 
+
+pred BeetweenCreatureTypeD1 [myType1:String,myType2:String,min:Int,max:Int]{
+#{card:Card,game:Game|card in game.deck1.cards &&card.creatureType = myType1 ||
+card in game.deck1.cards &&card.creatureType = myType2
+}>=min
+&&#{card:Card,game:Game|card in game.deck1.cards &&card.creatureType = myType1 ||
+card in game.deck1.cards &&card.creatureType = myType2
+}<=max
+}
 
 -----------Power Endurance and Type-------------------
 
@@ -319,6 +361,18 @@ pred AtMostNumberCreaturePowerEnduranceandTypeD1[myPowerMin:Int ,myPowerMax:Int,
 }
 
 
+pred BeetweenCreaturePowerEnduranceandTypeD1[myPowerMin:Int ,myPowerMax:Int,myEnduMin:Int,myEnduMax:Int,myType1:String,myType2:String,min:Int,max:Int]
+ {
+#{card:Card,game:Game|card in game.deck1.cards &&card.power>=myPowerMin&&card.power<=myPowerMax
+&&card.endurence>=myEnduMin&&card.endurence<=myEnduMax
+&&card.creatureType =  myType1|| card.creatureType =  myType2
+}>=min
+&&#{card:Card,game:Game|card in game.deck1.cards &&card.power>=myPowerMin&&card.power<=myPowerMax
+&&card.endurence>=myEnduMin&&card.endurence<=myEnduMax
+&&card.creatureType =  myType1|| card.creatureType =  myType2
+}<=max
+}
+
 -----------------------COLOR----------------------------------------
 
 
@@ -330,19 +384,12 @@ all game:Game | game.deck1.cards.color = myColor
 //only two color
 
 pred OnlyTwoColorD1[myColor1:Color,myColor2:Color] {
-all  game:Game | game.deck1.cards.color = myColor1||
-all  game:Game | game.deck1.cards.color = myColor2 && 
-#{game:Game |game.deck1.cards.color = myColor1 }>=1&&
-#{game:Game |game.deck1.cards.color = myColor2} >=1
+#{game:Game ,card:Card |card in game.deck1.cards and card.color = myColor1 }>=1&&
+#{game:Game ,card:Card |card in game.deck1.cards and card.color = myColor2} >=1
 }
 
-//you can continue to have all the color you want
 
 
 
-
-pred  empty {}
-
-
-run { BeetweenNumberTotalCardD[2,10] and OnlyOneColor[Red] } for 11 Int,10 Card, exactly 2 Deck , 1 Game
+run { BeetweenNumberTotalCardD1[1,10] and OnlyTwoColorD1[Red,Blue] } for 12 Int,10 Card, exactly 2 Deck , 1 Game
 
